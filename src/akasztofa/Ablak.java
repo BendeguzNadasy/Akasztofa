@@ -1,8 +1,16 @@
 package akasztofa;
 
-public class Ablak extends javax.swing.JFrame {
+import java.util.ArrayList;
 
+public class Ablak extends javax.swing.JFrame {
+    
+    private ArrayList<String> szavak;
+    private String tippelendo;
+    
     public Ablak() {
+        szavak = new ArrayList<>();
+        listaFeltolt();
+        szotGeneral();
         initComponents();
     }
 
@@ -177,4 +185,25 @@ public class Ablak extends javax.swing.JFrame {
     private javax.swing.JTextField txtKorabbiTippek;
     private javax.swing.JTextField txtTipp;
     // End of variables declaration//GEN-END:variables
+
+    private void listaFeltolt() {
+        
+        szavak.add("alma");
+        szavak.add("eper");
+        szavak.add("iskola");
+        szavak.add("kutya");
+        szavak.add("macska");
+        szavak.add("csirke");
+        szavak.add("marha");
+        szavak.add("laptop");
+        szavak.add("telefon");
+        szavak.add("fon");
+    }
+
+    private void szotGeneral() {
+        int N = szavak.size();
+        int rnd = (int)(Math.random() * N);
+        tippelendo = szavak.get(rnd);
+        System.out.println(tippelendo);
+    }
 }
