@@ -1,6 +1,16 @@
 package akasztofa;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Ablak extends javax.swing.JFrame {
     private Jatekos jatekos;
@@ -11,6 +21,7 @@ public class Ablak extends javax.swing.JFrame {
 
     public Ablak() {
         initComponents();
+        btnOk.setEnabled(false);
         jatekos = new Jatekos();
         szavak = new ArrayList<>();
         hdb = 0;
@@ -34,16 +45,21 @@ public class Ablak extends javax.swing.JFrame {
         btnUjSzo = new javax.swing.JButton();
         btnOk = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        mnuUjJatek = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mnuJatek = new javax.swing.JMenu();
+        mnuUjJatek = new javax.swing.JMenuItem();
         mnuMentes = new javax.swing.JMenuItem();
         mnuBetoltes = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         rbKonnyu = new javax.swing.JRadioButtonMenuItem();
         rbNehez = new javax.swing.JRadioButtonMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Akasztófa 1.0");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Kitalálandó szó:");
 
@@ -53,11 +69,27 @@ public class Ablak extends javax.swing.JFrame {
 
         jLabel2.setText("Tipp:");
 
+        txtTipp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTippKeyPressed(evt);
+            }
+        });
+
         jLabel3.setText("Korábbi tippek:");
 
         btnMegfejtes.setText("Megfejtés");
+        btnMegfejtes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMegfejtesActionPerformed(evt);
+            }
+        });
 
         btnUjSzo.setText("Új szó");
+        btnUjSzo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUjSzoActionPerformed(evt);
+            }
+        });
 
         btnOk.setText("Ok");
         btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -66,18 +98,33 @@ public class Ablak extends javax.swing.JFrame {
             }
         });
 
-        mnuUjJatek.setText("Játék");
+        mnuJatek.setText("Játék");
 
-        jMenuItem1.setText("Új játék");
-        mnuUjJatek.add(jMenuItem1);
+        mnuUjJatek.setText("Új játék");
+        mnuUjJatek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUjJatekActionPerformed(evt);
+            }
+        });
+        mnuJatek.add(mnuUjJatek);
 
         mnuMentes.setText("Mentés");
-        mnuUjJatek.add(mnuMentes);
+        mnuMentes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuMentesActionPerformed(evt);
+            }
+        });
+        mnuJatek.add(mnuMentes);
 
         mnuBetoltes.setText("Betöltés");
-        mnuUjJatek.add(mnuBetoltes);
+        mnuBetoltes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuBetoltesActionPerformed(evt);
+            }
+        });
+        mnuJatek.add(mnuBetoltes);
 
-        jMenuBar1.add(mnuUjJatek);
+        jMenuBar1.add(mnuJatek);
 
         jMenu2.setText("Nehézség");
 
@@ -110,15 +157,15 @@ public class Ablak extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtKorabbiTippek)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtTipp)))
+                                        .addComponent(txtTipp, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOk)
-                                .addGap(0, 80, Short.MAX_VALUE))))
+                                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 69, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnMegfejtes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -157,7 +204,7 @@ public class Ablak extends javax.swing.JFrame {
         String tipp = txtTipp.getText();
         //System.out.println(tipp);
         int ertek = (int)tipp.charAt(0);
-        
+        txtTipp.setText("");
         //System.out.println("ertek:" + ertek);
         
         if (tipp.length() == 1 && (65 <= ertek && ertek <= 122)) {
@@ -170,6 +217,58 @@ public class Ablak extends javax.swing.JFrame {
             System.out.println("hiba");
         }
     }//GEN-LAST:event_btnOkActionPerformed
+
+    private void btnMegfejtesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMegfejtesActionPerformed
+        JOptionPane.showMessageDialog(this, "A megfejtés: " + tippelendo, "MEGFEJTÉS", JOptionPane.INFORMATION_MESSAGE);
+        ujJatek();
+    }//GEN-LAST:event_btnMegfejtesActionPerformed
+
+    private void mnuUjJatekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUjJatekActionPerformed
+        ujJatek();
+    }//GEN-LAST:event_mnuUjJatekActionPerformed
+
+    private void btnUjSzoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUjSzoActionPerformed
+        ujJatek();
+    }//GEN-LAST:event_btnUjSzoActionPerformed
+
+    private void txtTippKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTippKeyPressed
+        btnOk.setEnabled(true);
+    }//GEN-LAST:event_txtTippKeyPressed
+
+    private void mnuMentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuMentesActionPerformed
+        try {
+            jatekos.setHdb(hdb);
+            FileOutputStream fi = new FileOutputStream("akasztofa.bin");
+            ObjectOutput obment = new ObjectOutputStream(fi);
+            obment.writeObject(jatekos);
+            obment.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ablak.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Ablak.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnuMentesActionPerformed
+
+    private void mnuBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuBetoltesActionPerformed
+        try {
+            FileInputStream fi = new FileInputStream("akasztofa.bin");
+            ObjectInputStream ob = new ObjectInputStream(fi);
+            jatekos = (Jatekos)ob.readObject();
+            ob.close();
+            txtKorabbiTippek.setText(jatekos.getTippeltBetuk().toString());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Ablak.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(Ablak.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnuBetoltesActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int gomb = JOptionPane.showConfirmDialog(this, "Biztos kilép?", "KILÉPÉS", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (gomb == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -211,12 +310,12 @@ public class Ablak extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblHibak;
     private javax.swing.JLabel lblKiir;
     private javax.swing.JMenuItem mnuBetoltes;
+    private javax.swing.JMenu mnuJatek;
     private javax.swing.JMenuItem mnuMentes;
-    private javax.swing.JMenu mnuUjJatek;
+    private javax.swing.JMenuItem mnuUjJatek;
     private javax.swing.JRadioButtonMenuItem rbKonnyu;
     private javax.swing.JRadioButtonMenuItem rbNehez;
     private javax.swing.JTextField txtKorabbiTippek;
@@ -280,5 +379,14 @@ public class Ablak extends javax.swing.JFrame {
 
         lblKiir.setText(kiir);
     }
+
+    private void ujJatek() {
+        jatekos.listaUrit();
+        szotGeneral();
+        hdb = 0;
+        lblHibak.setText("Hibák száma: 0");
+        txtKorabbiTippek.setText("");
+    }
+
 
 }

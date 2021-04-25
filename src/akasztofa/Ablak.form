@@ -6,25 +6,34 @@
     </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="mnuUjJatek">
+        <Menu class="javax.swing.JMenu" name="mnuJatek">
           <Properties>
             <Property name="text" type="java.lang.String" value="J&#xe1;t&#xe9;k"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="mnuUjJatek">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xda;j j&#xe1;t&#xe9;k"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuUjJatekActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuMentes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ment&#xe9;s"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuMentesActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuBetoltes">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bet&#xf6;lt&#xe9;s"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuBetoltesActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -56,7 +65,7 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="title" type="java.lang.String" value="Akaszt&#xf3;fa 1.0"/>
   </Properties>
   <SyntheticProperties>
@@ -64,6 +73,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -92,17 +104,17 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="txtKorabbiTippek" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txtTipp" max="32767" attributes="0"/>
+                                      <Component id="txtTipp" min="-2" pref="32" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnOk" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="80" max="32767" attributes="0"/>
+                              <Component id="btnOk" min="-2" pref="57" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="69" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -169,6 +181,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtTipp">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTippKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -181,11 +196,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Megfejt&#xe9;s"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMegfejtesActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnUjSzo">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#xda;j sz&#xf3;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUjSzoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnOk">
       <Properties>

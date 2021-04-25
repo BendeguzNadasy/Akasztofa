@@ -4,10 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Jatekos implements Serializable{
+    
     private ArrayList<String> tippeltBetuk;
-
+    private int hdb;
+    
     public Jatekos() {
+        hdb = 0;
         tippeltBetuk = new ArrayList<>();
+    }
+
+    public void setHdb(int hdb) {
+        this.hdb = hdb;
     }
     
     public boolean addTipp(String c) {
@@ -26,7 +33,9 @@ public class Jatekos implements Serializable{
         return tippeltBetuk;
     }
     
-    
+    public void listaUrit() {
+        tippeltBetuk.clear();
+    }
     
     
 }
