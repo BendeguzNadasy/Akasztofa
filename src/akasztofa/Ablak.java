@@ -6,12 +6,14 @@ public class Ablak extends javax.swing.JFrame {
     private Jatekos jatekos;
     private ArrayList<String> szavak;
     private String tippelendo;
+    private int hdb;
     String[] allapot;
 
     public Ablak() {
         initComponents();
         jatekos = new Jatekos();
         szavak = new ArrayList<>();
+        hdb = 0;
         listaFeltolt();
         szotGeneral();
     }
@@ -255,12 +257,16 @@ public class Ablak extends javax.swing.JFrame {
 
     private void betuEllenoriz(String tipp) {
         int M = allapot.length;
+        boolean szobanVan = false;
         for (int i = 0; i < M; i++) {
             String c = tippelendo.charAt(i) + "";
             if (c.equals(tipp)) {
                 allapot[i] = tipp;
+                szobanVan = true;
             }
-
+        }
+        if (!szobanVan) {
+            lblHibak.setText("Hibák száma: " + ++hdb);
         }
         String kiir = "";
         for (int i = 0; i < M; i++) {
@@ -271,6 +277,7 @@ public class Ablak extends javax.swing.JFrame {
                 kiir += "_ ";
             }
         }
+
         lblKiir.setText(kiir);
     }
 
