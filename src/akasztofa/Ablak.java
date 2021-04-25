@@ -6,7 +6,7 @@ public class Ablak extends javax.swing.JFrame {
     private Jatekos jatekos;
     private ArrayList<String> szavak;
     private String tippelendo;
-    String allapot;
+    String[] allapot;
 
     public Ablak() {
         initComponents();
@@ -162,6 +162,7 @@ public class Ablak extends javax.swing.JFrame {
             System.out.println("nincs hiba");
             jatekos.addTipp(tipp);
             txtKorabbiTippek.setText(jatekos.getTippeltBetuk().toString());
+            betuEllenoriz(tipp);
         }
         else {
             System.out.println("hiba");
@@ -244,10 +245,33 @@ public class Ablak extends javax.swing.JFrame {
         
         int M = tippelendo.length();
         System.out.println(M);
-        allapot = "";
+        allapot = new String[M];
+        String kiir = "";
         for (int i = 0; i < M; i++) {
-            allapot += "_ "; 
+            kiir += "_ "; 
         }
-        lblKiir.setText(allapot);
+        lblKiir.setText(kiir);
     }
+
+    private void betuEllenoriz(String tipp) {
+        int M = allapot.length;
+        for (int i = 0; i < M; i++) {
+            String c = tippelendo.charAt(i) + "";
+            if (c.equals(tipp)) {
+                allapot[i] = tipp;
+            }
+
+        }
+        String kiir = "";
+        for (int i = 0; i < M; i++) {
+            if (allapot[i] != null) {
+                kiir += allapot[i] + " "; 
+            }
+            else {
+                kiir += "_ ";
+            }
+        }
+        lblKiir.setText(kiir);
+    }
+
 }
