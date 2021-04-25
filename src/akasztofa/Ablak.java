@@ -3,15 +3,17 @@ package akasztofa;
 import java.util.ArrayList;
 
 public class Ablak extends javax.swing.JFrame {
-    
+    private Jatekos jatekos;
     private ArrayList<String> szavak;
     private String tippelendo;
-    
+    String allapot;
+
     public Ablak() {
+        initComponents();
+        jatekos = new Jatekos();
         szavak = new ArrayList<>();
         listaFeltolt();
         szotGeneral();
-        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,6 +30,7 @@ public class Ablak extends javax.swing.JFrame {
         txtKorabbiTippek = new javax.swing.JTextField();
         btnMegfejtes = new javax.swing.JButton();
         btnUjSzo = new javax.swing.JButton();
+        btnOk = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuUjJatek = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -53,6 +56,13 @@ public class Ablak extends javax.swing.JFrame {
         btnMegfejtes.setText("Megfejtés");
 
         btnUjSzo.setText("Új szó");
+
+        btnOk.setText("Ok");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
 
         mnuUjJatek.setText("Játék");
 
@@ -96,12 +106,17 @@ public class Ablak extends javax.swing.JFrame {
                             .addComponent(lblHibak))
                         .addGap(138, 138, 138)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(txtKorabbiTippek)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTipp, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtKorabbiTippek, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtTipp)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOk)
+                                .addGap(0, 80, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnMegfejtes)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -112,11 +127,12 @@ public class Ablak extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(8, 8, 8)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(txtTipp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTipp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOk))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblKiir)
@@ -134,6 +150,23 @@ public class Ablak extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        String tipp = txtTipp.getText();
+        //System.out.println(tipp);
+        int ertek = (int)tipp.charAt(0);
+        
+        //System.out.println("ertek:" + ertek);
+        
+        if (tipp.length() == 1 && (65 <= ertek && ertek <= 122)) {
+            System.out.println("nincs hiba");
+            jatekos.addTipp(tipp);
+            txtKorabbiTippek.setText(jatekos.getTippeltBetuk().toString());
+        }
+        else {
+            System.out.println("hiba");
+        }
+    }//GEN-LAST:event_btnOkActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -167,6 +200,7 @@ public class Ablak extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnMegfejtes;
+    private javax.swing.JButton btnOk;
     private javax.swing.JButton btnUjSzo;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
@@ -187,7 +221,6 @@ public class Ablak extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void listaFeltolt() {
-        
         szavak.add("alma");
         szavak.add("eper");
         szavak.add("iskola");
@@ -202,8 +235,19 @@ public class Ablak extends javax.swing.JFrame {
 
     private void szotGeneral() {
         int N = szavak.size();
-        int rnd = (int)(Math.random() * N);
+
+        int rnd = (int) (Math.random() * N);
+        System.out.println(rnd);
+
         tippelendo = szavak.get(rnd);
         System.out.println(tippelendo);
+        
+        int M = tippelendo.length();
+        System.out.println(M);
+        allapot = "";
+        for (int i = 0; i < M; i++) {
+            allapot += "_ "; 
+        }
+        lblKiir.setText(allapot);
     }
 }
